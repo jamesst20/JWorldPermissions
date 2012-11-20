@@ -1,0 +1,9 @@
+name: 'JWorldPermissions'
+version: 1.0
+authors: [Jamesst20]
+main: com.jamesst20.jworldpermissions.JWorldPermissions
+commands:
+   jworldpermissions:
+       description: 'JWorldPermissions help'
+       usage: /JWorldPermissions
+       aliases: [jwp]
