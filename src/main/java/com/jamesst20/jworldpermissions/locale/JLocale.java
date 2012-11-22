@@ -1,25 +1,21 @@
 package com.jamesst20.jworldpermissions.locale;
 
-import com.jamesst20.jcommandessentials.Utils.ConfigMethods;
+import com.jamesst20.config.JYamlConfiguration;
 import com.jamesst20.jworldpermissions.JWorldPermissions;
 import com.jamesst20.jworldpermissions.utils.Methods;
 import java.io.File;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class JLocale {
-    public static YamlConfiguration config = null;
-    public static File configFile = null;
+    public static JYamlConfiguration config;
     public static JWorldPermissions plugin = JWorldPermissions.plugin;
     
     public static void loadConfigs(){
         File locale = new File(plugin.getDataFolder(), plugin.getConfig().getString("translation.file"));
         if (locale.exists()){
-            configFile = locale;
-            config = ConfigMethods.getCustomConfig(plugin.getConfig().getString("translation.file"));
+            config = new JYamlConfiguration(plugin, plugin.getConfig().getString("translation.file"));
             setDefaultLocaleValues();
         }else{
-            configFile = ConfigMethods.getConfigFile("english.yml");
-            config = ConfigMethods.getCustomConfig("english.yml");
+            config = new JYamlConfiguration(plugin, "english.yml");
             setDefaultLocaleValues();
         }        
     }
@@ -27,19 +23,19 @@ public class JLocale {
         loadConfigs();
     }
     public static void setDefaultLocaleValues(){
-        ConfigMethods.setDefaultConfig(config, "Strings.NoPermissions", "&cYou have no permissions.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoBreakPermissions", "&cYou are not allowed to break %block%.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoPlacePermissions", "&cYou are not allowed to place %block%.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoChatPermissions", "&cYou are not allowed to chat.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoInteractPermissions", "&cYou are not allowed to interact with %item%.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoAttackPermissions", "&cYou are not allowed to attack %entity%.");        
-        ConfigMethods.setDefaultConfig(config, "Strings.NoHaveItemPermissions", "&cYou are not allowed to have %item%.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoDropPermissions", "&cYou are not allowed to drop %item%.");
-        ConfigMethods.setDefaultConfig(config, "Strings.NoUseItemPermissions", "&cYou are not allowed to use %item%.");
-        ConfigMethods.saveConfig(configFile, config);
+        config.setDefault("Strings.NoPermissions", "&cYou have no permissions.");
+        config.setDefault("Strings.NoBreakPermissions", "&cYou are not allowed to break %block%.");
+        config.setDefault("Strings.NoPlacePermissions", "&cYou are not allowed to place %block%.");
+        config.setDefault("Strings.NoChatPermissions", "&cYou are not allowed to chat.");
+        config.setDefault("Strings.NoInteractPermissions", "&cYou are not allowed to interact with %item%.");
+        config.setDefault("Strings.NoAttackPermissions", "&cYou are not allowed to attack %entity%.");        
+        config.setDefault("Strings.NoHaveItemPermissions", "&cYou are not allowed to have %item%.");
+        config.setDefault("Strings.NoDropPermissions", "&cYou are not allowed to drop %item%.");
+        config.setDefault("Strings.NoUseItemPermissions", "&cYou are not allowed to use %item%.");
+        config.saveConfig();
     }
     public static String getMessage(String nodes){
-        return Methods.coloring(config.getString(nodes, "&cYou don't have permissions."));
+        return Methods.coloring(config.getConfig().getString(nodes, "&cYou don't have permissions."));
     }
 
 }
